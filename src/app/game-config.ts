@@ -4,11 +4,19 @@
 // ============================================================
 
 export const GAME_CONFIG = {
-  wordle1: {
-    targetWord: 'FARTS'
+  games:[{
+    targetWord: 'FARTS',
+    modalMessage: 'Ok, but seriously...'
   },
-  wordle2: {
-    targetWord: 'HEATH',
-    taunt: 'Come on Hannah, not again'
+  {
+    targetWord: 'POOPS',
+    taunt: 'Come on Hannah, not again',
+    modalMessage: 'Alright, now the real one'
   }
+,
+  {
+    targetWord: 'HEATH',
+    taunt: 'No Hannah, it\'s not POOPS again',
+    modalMessage: 'You did it!'
+  }]
 };

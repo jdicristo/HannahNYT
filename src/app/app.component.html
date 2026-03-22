@@ -22,7 +22,7 @@
 <!-- Win modal -->
 <div class="modal-backdrop" *ngIf="gameState === GameState.Won">
   <div class="modal">
-    <h2 class="title">OK, BUT SERIOUSLY...</h2>
+    <h2 class="title">{{ currentGame.modalMessage }}</h2>
     <button class="cta" (click)="nextGame()">NEXT GAME</button>
   </div>
 </div>

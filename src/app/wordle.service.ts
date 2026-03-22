@@ -1,28 +1,29 @@
-import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { Game } from './models/game';
 import { GAME_CONFIG } from './game-config';
-import { TileState } from './models/tile-state';
 import { GameState } from './models/game-state';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Row } from './models/row';
-import { CurrentGame } from './models/current-game';
+import { TileState } from './models/tile-state';
 
 @Injectable({ providedIn: 'root' })
 export class WordleService {
-  private currentGame = CurrentGame.Wordle1;
-  currentGame$ = new BehaviorSubject<CurrentGame>(this.currentGame);
   private readonly MAX_GUESSES = 6;
   private readonly WORD_LENGTH = 5;
 
   private board: Row[] = [];
   private currentRow = 0;
   private currentCol = 0;
+  private gameIndex = 0;
   private gameState = GameState.Playing;
   private letterStates: Record<string, TileState> = {};
-  private target = GAME_CONFIG.wordle1.targetWord.toUpperCase();
+
+  private currentGame = GAME_CONFIG.games[this.gameIndex];
 
   board$ = new BehaviorSubject<Row[]>([]);
+  currentGame$ = new BehaviorSubject<Game>(this.currentGame);
   gameState$ = new BehaviorSubject<GameState>(GameState.Playing);
   letterStates$ = new BehaviorSubject<Record<string, TileState>>({});
   shakeRow$ = new BehaviorSubject<number>(-1);
@@ -45,11 +46,9 @@ export class WordleService {
   }
 
   handleKey(key: string): void {
-    console.log("Handling key:", key);
-    console.log("Current game state:", this.gameState);
     if (this.gameState !== GameState.Playing) return;
-
     const k = key.toUpperCase();
+
     if (k === 'ENTER') {
       this.submitGuess();
     } else if (k === 'BACKSPACE' || key === '←') {
@@ -78,7 +77,6 @@ export class WordleService {
   }
 
   private submitGuess(): void {
-    console.log("Submitting guess for row", this.currentRow);
     if (this.currentCol < this.WORD_LENGTH) {
       this.triggerShake();
       this.showMessage('Not enough letters');
@@ -91,9 +89,11 @@ export class WordleService {
       if (!isWord) {
         this.triggerShake();
         this.showMessage('Not in word list');
+        return;
       }
 
       const result = this.evaluateGuess(guess);
+      const target = this.currentGame.targetWord.toUpperCase();
 
       result.forEach((state, i) => {
         this.board[this.currentRow].tiles[i].state = state;
@@ -103,7 +103,7 @@ export class WordleService {
 
       this.updateLetterStates(guess, result);
 
-      if (guess === this.target) {
+      if (guess === target) {
         this.gameState = GameState.Won;
         this.triggerBounce();
         setTimeout(() => {
@@ -113,11 +113,11 @@ export class WordleService {
       } else if (this.currentRow === this.MAX_GUESSES - 1) {
         this.gameState = GameState.Lost;
         setTimeout(() => {
-          this.showMessage(this.target, 5000);
+          this.showMessage(target, 5000);
           this.gameState$.next(GameState.Lost);
         }, 1800);
-      } else if (this.isPreviousAnswer(guess)) {
-        this.showMessage(GAME_CONFIG.wordle2.taunt, 4000);
+      } else if (this.shouldTaunt(guess) && this.currentGame.taunt) {
+        this.showMessage(this.currentGame.taunt, 5000);
       }
 
       this.currentRow++;
@@ -125,9 +125,9 @@ export class WordleService {
     });
   }
 
-  private isPreviousAnswer = (guess: string): boolean =>
-    this.currentGame === CurrentGame.Wordle2 &&
-    guess === GAME_CONFIG.wordle1.targetWord.toUpperCase();
+  private shouldTaunt = (guess: string): boolean =>
+    this.gameIndex > 0 &&
+    guess === GAME_CONFIG.games[this.gameIndex - 1].targetWord.toUpperCase();
 
   validateWord(word: string) {
     const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`;
@@ -139,7 +139,7 @@ export class WordleService {
 
   private evaluateGuess(guess: string): TileState[] {
     const result: TileState[] = Array(this.WORD_LENGTH).fill(TileState.Absent);
-    const targetArr = this.target.split('');
+    const targetArr = this.currentGame.targetWord.toUpperCase().split('');
     const guessArr = guess.split('');
     const targetCount: Record<string, number> = {};
 
@@ -197,35 +197,27 @@ export class WordleService {
   }
 
   /**
-   * Start the 2nd Wordle game
+   * Start the next Wordle game
    */
   newGame(): void {
     // advance the game counter each time a new game starts
-    // advance the current game enum each time a new game starts
-    const max = CurrentGame.Strands;
-    if (this.currentGame < max) {
-      this.currentGame = (this.currentGame + 1) as CurrentGame;
+    // advance the current game each time a new game starts
+    const max = GAME_CONFIG.games.length - 1;
+    if (this.gameIndex < max) {
+      this.gameIndex++;
+      this.currentGame = GAME_CONFIG.games[this.gameIndex];
+      this.currentRow = 0;
+      this.currentCol = 0;
+      this.gameState = GameState.Playing;
+      this.letterStates = {};
+      this.initBoard();
+      this.letterStates$.next({ ...this.letterStates });
+      this.gameState$.next(this.gameState);
+      this.currentGame$.next(this.currentGame);
+      this.shakeRow$.next(-1);
+      this.bounceRow$.next(-1);
+      this.message$.next('');
     }
-    this.currentGame$.next(this.currentGame);
-
-    switch(this.currentGame) {
-      case CurrentGame.Wordle2:
-        this.target = GAME_CONFIG.wordle2.targetWord.toUpperCase();
-        break;
-      default:
-        break;
-    }
-
-    this.currentRow = 0;
-    this.currentCol = 0;
-    this.gameState = GameState.Playing;
-    this.letterStates = {};
-    this.initBoard();
-    this.letterStates$.next({ ...this.letterStates });
-    this.gameState$.next(this.gameState);
-    this.shakeRow$.next(-1);
-    this.bounceRow$.next(-1);
-    this.message$.next('');
   }
 
   private getWinMessage(): string {

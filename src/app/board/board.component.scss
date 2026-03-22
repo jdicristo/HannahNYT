@@ -38,8 +38,8 @@
 
   &.submitted {
     animation: flip 0.5s ease forwards;
-    /* keep the tile outline default until reveal point */
-    border: 2px solid var(--color-tone-3);
+    /* keep the tile outline and tint it to the flip color so boxes remain visible */
+    border: 2px solid var(--flip-color);
   }
 
   &[data-state='correct'] {
@@ -59,10 +59,10 @@
 }
 
 @keyframes flip {
-  0% { transform: rotateX(0); background-color: transparent; border-color: var(--color-tone-3); }
-  49% { transform: rotateX(-90deg); background-color: transparent; border-color: var(--color-tone-3); }
-  50% { transform: rotateX(-90deg); background-color: var(--flip-color); color: #fff; border-color: var(--flip-color); }
-  100% { transform: rotateX(0); background-color: var(--flip-color); color: #fff; border-color: var(--flip-color); }
+  0% { transform: rotateX(0); background-color: transparent; }
+  49% { transform: rotateX(-90deg); background-color: transparent; }
+  50% { transform: rotateX(-90deg); background-color: var(--flip-color); color: #fff; }
+  100% { transform: rotateX(0); background-color: var(--flip-color); color: #fff; }
 }
 
 @keyframes pop {
