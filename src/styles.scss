@@ -1,0 +1,49 @@
+/* NYT Wordle-accurate color variables */
+:root {
+  --color-tone-1: #1a1a1b;
+  --color-tone-2: #787c7e;
+  --color-tone-3: #d3d6da;
+  --color-tone-4: #d3d6da;
+  --color-tone-5: #edeff1;
+  --color-tone-6: #f6f7f8;
+  --color-tone-7: #ffffff;
+  --color-correct: #538d4e;
+  --color-present: #b59f3b;
+  --color-absent: #787c7e;
+  --key-bg: #d3d6da;
+  --key-text-color: #1a1a1b;
+  --tile-text-color: #1a1a1b;
+  --background: #ffffff;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-tone-1: #ffffff;
+    --color-tone-2: #818384;
+    --color-tone-3: #565758;
+    --color-tone-4: #3a3a3c;
+    --color-tone-5: #272729;
+    --color-tone-6: #1a1a1b;
+    --color-tone-7: #1a1a1b;
+    --color-correct: #538d4e;
+    --color-present: #b59f3b;
+    --color-absent: #3a3a3c;
+    --key-bg: #818384;
+    --key-text-color: #ffffff;
+    --tile-text-color: #ffffff;
+    --background: #121213;
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--background);
+  overflow: hidden;
+}

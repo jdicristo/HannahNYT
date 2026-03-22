@@ -1,0 +1,13 @@
+<div class="keyboard">
+  <div class="keyboard-row" *ngFor="let row of rows">
+    <button
+      class="key"
+      *ngFor="let key of row"
+      [class.wide]="key === 'ENTER' || key === '←'"
+      [attr.data-state]="stateOf(key)"
+      (click)="press(key)"
+    >
+      {{ key }}
+    </button>
+  </div>
+</div>

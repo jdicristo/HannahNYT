@@ -1,0 +1,87 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 0;
+}
+
+.row {
+  display: flex;
+  gap: 5px;
+
+  &.shake {
+    animation: shake 0.6s ease;
+  }
+}
+
+.tile {
+  width: 62px;
+  height: 62px;
+  border: 2px solid var(--color-tone-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  text-transform: uppercase;
+  color: var(--color-tone-1);
+  user-select: none;
+  transition: border-color 0.05s;
+  position: relative;
+
+  &[data-state='tbd'] {
+    border-color: var(--color-tone-1);
+    animation: pop 0.1s ease;
+  }
+
+  &.submitted {
+    animation: flip 0.5s ease forwards;
+    /* keep the tile outline default until reveal point */
+    border: 2px solid var(--color-tone-3);
+  }
+
+  &[data-state='correct'] {
+    --flip-color: var(--color-correct);
+  }
+  &[data-state='present'] {
+    --flip-color: var(--color-present);
+  }
+  &[data-state='absent'] {
+    --flip-color: var(--color-absent);
+  }
+}
+
+// Bounce for win — applied per tile via bounceDelay
+.row.bounce .tile {
+  animation: bounce 1s ease forwards;
+}
+
+@keyframes flip {
+  0% { transform: rotateX(0); background-color: transparent; border-color: var(--color-tone-3); }
+  49% { transform: rotateX(-90deg); background-color: transparent; border-color: var(--color-tone-3); }
+  50% { transform: rotateX(-90deg); background-color: var(--flip-color); color: #fff; border-color: var(--flip-color); }
+  100% { transform: rotateX(0); background-color: var(--flip-color); color: #fff; border-color: var(--flip-color); }
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-4px); }
+  30%, 70% { transform: translateX(4px); }
+}
+
+@keyframes bounce {
+  0%, 20% { transform: translateY(0); }
+  40% { transform: translateY(-30px); }
+  50% { transform: translateY(5px); }
+  60% { transform: translateY(-15px); }
+  80% { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}

@@ -1,0 +1,28 @@
+<div class="app-wrapper">
+  <header class="header">
+    <div class="header-inner">
+      <h1 class="title">Hannahdle</h1>
+    </div>
+    <div class="header-divider"></div>
+  </header>
+
+  <div class="toast-container" [class.visible]="message">
+    <div class="toast">{{ message }}</div>
+  </div>
+
+  <main class="main">
+    <app-board></app-board>
+  </main>
+
+  <footer class="footer">
+    <app-keyboard></app-keyboard>
+  </footer>
+</div>
+
+<!-- Win modal -->
+<div class="modal-backdrop" *ngIf="gameState === GameState.Won">
+  <div class="modal">
+    <h2 class="title">OK, BUT SERIOUSLY...</h2>
+    <button class="cta" (click)="nextGame()">NEXT GAME</button>
+  </div>
+</div>

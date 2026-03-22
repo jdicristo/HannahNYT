@@ -1,0 +1,19 @@
+<div class="board">
+  <div
+    class="row"
+    *ngFor="let row of board; let ri = index"
+    [class.shake]="shakeRow === ri"
+    [class.bounce]="bounceRow === ri"
+  >
+    <div
+      class="tile"
+      *ngFor="let tile of row.tiles; let ci = index"
+      [attr.data-state]="tile.state"
+      [attr.data-letter]="tile.letter"
+      [class.submitted]="row.submitted"
+      [style.animation-delay]="row.submitted ? tileDelay(ci) : (bounceRow === ri ? bounceDelay(ci) : '0s')"
+    >
+      {{ tile.letter }}
+    </div>
+  </div>
+</div>
