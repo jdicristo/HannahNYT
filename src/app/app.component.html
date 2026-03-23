@@ -27,7 +27,9 @@
 <!-- Win modal -->
 <div class="modal-backdrop" *ngIf="gameState === GameState.Won && !modalClosed">
   <div class="modal">
-    <button class="close-button" aria-label="close" (click)="closeModal()">X</button>
+    <button class="close-button" aria-label="close" (click)="closeModal()">
+      <img src="assets/close.svg" alt="Close" />
+    </button>
     <h2 class="title">{{ currentGame.modalMessage }}</h2>
     <button class="cta" (click)="nextGame()">NEXT GAME</button>
   </div>
