@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { WordleService } from '../wordle.service';
+import { WordleService } from '../services/wordle.service';
 import { TileState } from '..';
 
 @Component({

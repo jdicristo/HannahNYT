@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Game } from './models/game';
 import { GameState } from './models/game-state';
-import { GAME_CONFIG } from './game-config';
+import { CONFIG } from './app.config';
 import { Subscription } from 'rxjs';
-import { WordleService } from './wordle.service';
+import { WordleService } from './services/wordle.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { WordleService } from './wordle.service';
 export class AppComponent implements OnInit, OnDestroy {
   message = '';
   gameState: GameState = GameState.Playing;
-  currentGame: Game = GAME_CONFIG.games[0];
+  currentGame: Game = CONFIG.games[0];
 
   // expose enum to template
   GameState = GameState;
