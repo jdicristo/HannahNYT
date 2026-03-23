@@ -41,9 +41,10 @@
 }
 
 html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
   background-color: var(--background);
+  font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  height: 100%;
+  margin: 0;
   overflow: hidden;
+  padding: 0;
 }

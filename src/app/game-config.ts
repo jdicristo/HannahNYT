@@ -11,7 +11,7 @@ export const GAME_CONFIG = {
   {
     targetWord: 'POOPS',
     taunt: 'Come on Hannah, not again',
-    modalMessage: 'Alright, now the real one'
+    modalMessage: 'Alright, now for the real one'
   }
 ,
   {

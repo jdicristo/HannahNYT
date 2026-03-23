@@ -1,7 +1,7 @@
 .keyboard {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 8px;
   padding: 0 8px;
   user-select: none;
@@ -14,26 +14,26 @@
 }
 
 .key {
-  height: 58px;
-  min-width: 43px;
-  padding: 0;
+  align-items: center;
+  background-color: var(--key-bg);
   border: none;
   border-radius: 4px;
-  background-color: var(--key-bg);
   color: var(--key-text-color);
+  cursor: pointer;
+  display: flex;
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
-  text-transform: uppercase;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+  height: 58px;
   justify-content: center;
+  min-width: 43px;
+  padding: 0;
+  text-transform: uppercase;
   transition: background-color 0.1s ease, color 0.1s ease;
 
   &.wide {
-    min-width: 65px;
     font-size: 0.75rem;
+    min-width: 65px;
   }
 
   &:active {

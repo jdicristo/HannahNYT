@@ -15,13 +15,19 @@
   </main>
 
   <footer class="footer">
-    <app-keyboard></app-keyboard>
+    <ng-container *ngIf="!(gameState === GameState.Won && modalClosed); else nextCTA">
+      <app-keyboard></app-keyboard>
+    </ng-container>
+    <ng-template #nextCTA>
+      <button class="cta big" (click)="nextGame()">NEXT GAME</button>
+    </ng-template>
   </footer>
 </div>
 
 <!-- Win modal -->
-<div class="modal-backdrop" *ngIf="gameState === GameState.Won">
+<div class="modal-backdrop" *ngIf="gameState === GameState.Won && !modalClosed">
   <div class="modal">
+    <button class="close-button" aria-label="close" (click)="closeModal()">X</button>
     <h2 class="title">{{ currentGame.modalMessage }}</h2>
     <button class="cta" (click)="nextGame()">NEXT GAME</button>
   </div>

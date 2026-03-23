@@ -17,6 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // expose enum to template
   GameState = GameState;
+  modalClosed = false;
   private subs = new Subscription();
   constructor(private wordle: WordleService) {}
 
@@ -24,10 +25,20 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subs.add(this.wordle.message$.subscribe(m => (this.message = m)));
     this.subs.add(this.wordle.gameState$.subscribe(s => (this.gameState = s)));
     this.subs.add(this.wordle.currentGame$.subscribe(g => (this.currentGame = g)));
+    // when game state changes away from Won, reset modalClosed so keyboard returns
+    this.subs.add(this.wordle.gameState$.subscribe(s => {
+      if (s !== GameState.Won) this.modalClosed = false;
+    }));
   }
 
   nextGame(): void {
+    // ensure modal flag reset and start next game
+    this.modalClosed = false;
     this.wordle.newGame();
+  }
+
+  closeModal(): void {
+    this.modalClosed = true;
   }
 
   ngOnDestroy(): void {
