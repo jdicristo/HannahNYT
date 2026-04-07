@@ -24,10 +24,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 ## Deployment
 
-```
-ng build
-firebase deploy
-```
+`npm run deploy`
 
 App is deployed to https://hannah-wordle.web.app
 
