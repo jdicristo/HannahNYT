@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/hannah-nyt",
+    "public": "dist/hannah-nyt/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
