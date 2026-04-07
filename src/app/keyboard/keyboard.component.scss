@@ -53,3 +53,27 @@
     color: #fff;
   }
 }
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .keyboard {
+    gap: 4px;
+    padding: 0 4px;
+  }
+
+  .keyboard-row {
+    gap: 3px;
+  }
+
+  .key {
+    font-size: 0.65rem;
+    height: 40px;
+    min-width: 30px;
+
+    &.wide {
+      font-size: 0.6rem;
+      min-width: 45px;
+    }
+  }
+}
+
