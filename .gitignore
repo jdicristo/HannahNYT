@@ -5,6 +5,8 @@
 /tmp
 /out-tsc
 /bazel-out
+/skills
+
 
 # Node
 /node_modules
@@ -40,3 +42,42 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Firebase & AI
+.firebase/
+.firebaserc
+.env
+.env.local
+.env*.local
+
+# AI tool directories
+.adal/
+.agents/
+.augment/
+.bob/
+.claude/
+.codebuddy/
+.commandcode/
+.continue/
+.cortex/
+.crush/
+.factory/
+.goose/
+.iflow/
+.junie/
+.kilocode/
+.kiro/
+.kode/
+.mcpjam/
+.mux/
+.neovate/
+.openhands/
+.pi/
+.pochi/
+.qoder/
+.qwen/
+.roo/
+.trae/
+.vibe/
+.windsurf/
+.zencoder/

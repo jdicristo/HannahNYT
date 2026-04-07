@@ -25,10 +25,11 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Deployment
 
 ```
-npm run build -- --configuration production
-npx angular-cli-ghpages --dir=dist/hannah-nyt
+ng build
+firebase deploy
 ```
-It can be accessed at https://jdicristo.github.io/HannahNYT
+
+App is deployed to https://hannah-wordle.web.app
 
 ## Further help
 
